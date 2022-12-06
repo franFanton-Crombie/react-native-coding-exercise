@@ -23,7 +23,7 @@ export default HeaderScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.BackgroundHeader,
+    backgroundColor: Colors.BlueDark,
     flexDirection: "row",
     paddingLeft: 29,
     width: WIDTH_SCREEN,
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     paddingTop: 9.2,
   },
   viewLogo: {
-    marginLeft: 31.1,
+    marginLeft: 54,
     paddingTop: 23.5,
   },
   viewRocket: {
