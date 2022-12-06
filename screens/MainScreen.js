@@ -3,8 +3,10 @@ import { ArrowDown, Banner, Filter, SmallRocket } from "../assets/Icons";
 import HeaderScreen from "../component/Header";
 import { Colors } from "../helpers/colors";
 import { WIDTH_SCREEN } from "../helpers/constants";
+import useLaunchesPastResult from "../helpers/useLaunchesPastResult";
 
 const MainScreen = () => {
+  const list = useLaunchesPastResult();
   return (
     <View style={styles.container}>
       <HeaderScreen />
