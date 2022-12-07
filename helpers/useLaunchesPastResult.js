@@ -1,48 +1,61 @@
-import { gql } from "@apollo/client";
+import { ApolloClient, gql, InMemoryCache, useQuery } from "@apollo/client";
+import { useState } from "react";
 
 const useLaunchesPastResult = () => {
-  const GET_LAUNCHES = gql`
-    query getLaunchesPastResult {
-      launchesPastResult(limit: 10) {
-        data {
-          launch_date_local
-          launch_site {
-            site_name_long
-          }
-          links {
-            article_link
-            video_link
-          }
-          mission_name
-          rocket {
-            first_stage {
-              cores {
-                core {
-                  reuse_count
-                  status
-                }
-                flight
-              }
+  //const { loading, error, data } = useQuery(query);
+  const [data, setData] = useState({});
+  //console.log(error);
+  /*data?.dogs.map((item) => {
+    console.log(item.name);
+  });*/
+  const client = new ApolloClient({
+    uri: "https://api.spacex.land/graphql",
+    cache: new InMemoryCache(),
+  });
+
+  client
+    .query({
+      query: gql`
+        query GetLaunchesPastResult {
+          launchesPastResult(limit: 1000) {
+            data {
+              launch_date_local
+              mission_name
             }
-            rocket_name
-            second_stage {
-              payloads {
-                payload_mass_kg
-                payload_mass_lbs
-                payload_type
-              }
+            result {
+              totalCount
             }
-          }
-          ships {
-            home_port
-            image
-            name
           }
         }
+      `,
+    })
+    .then((result) => {
+      setData(result.data.launchesPastResult);
+    });
+
+  return { data: data };
+};
+
+const GET_DOGS = gql`
+  query GetDogs {
+    dogs {
+      id
+      breed
+    }
+  }
+`;
+const query = gql`
+  query GetLaunchesPastResult {
+    launchesPastResult(limit: 1) {
+      data {
+        launch_date_local
+        mission_name
+      }
+      result {
+        totalCount
       }
     }
-  `;
-  return GET_LAUNCHES;
-};
+  }
+`;
 
 export default useLaunchesPastResult;
