@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     paddingLeft: 29,
     width: WIDTH_SCREEN,
     height: 141,
-    marginTop: 25,
   },
   viewPlanet: {
     paddingTop: 9.2,

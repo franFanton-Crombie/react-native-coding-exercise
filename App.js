@@ -1,6 +1,6 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "./helpers/colors";
 import MainScreen from "./screens/MainScreen";
 
@@ -11,9 +11,11 @@ export default function App() {
   });
   return (
     <ApolloProvider client={client}>
-      <SafeAreaView style={styles.container}>
-        <MainScreen />
-      </SafeAreaView>
+      <SafeAreaProvider style={styles.container}>
+        <SafeAreaView style={styles.container}>
+          <MainScreen />
+        </SafeAreaView>
+      </SafeAreaProvider>
     </ApolloProvider>
   );
 }
