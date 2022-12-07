@@ -17,7 +17,7 @@ const useLaunchesPastResult = () => {
     .query({
       query: gql`
         query GetLaunchesPastResult {
-          launchesPastResult(limit: 1000) {
+          launchesPastResult(limit: 4) {
             data {
               launch_date_local
               mission_name

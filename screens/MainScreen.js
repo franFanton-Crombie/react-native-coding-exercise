@@ -1,8 +1,9 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { ArrowDown, Banner, Filter, SmallRocket } from "../assets/Icons";
+import { Banner, SmallRocket } from "../assets/Icons";
 import CardMission from "../component/CardMission";
+import FilterData from "../component/FilterData";
 import HeaderScreen from "../component/Header";
 import { Colors } from "../helpers/colors";
 import { WIDTH_SCREEN } from "../helpers/constants";
@@ -13,9 +14,12 @@ const MainScreen = () => {
   const data = information.data;
   const result = information?.data?.result;
   const Item = useCallback((props) => <CardMission {...props} />, []);
+  const [close, setClose] = useState(false);
   return (
     <View style={styles.container}>
-      <HeaderScreen />
+      <View style={{ backgroundColor: Colors.BlueDark }}>
+        <HeaderScreen />
+      </View>
       <View style={styles.viewBanner}>
         <Banner />
       </View>
@@ -32,17 +36,13 @@ const MainScreen = () => {
           <Text style={styles.textSearch}>SEARCH</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.viewFilter}>
-        <Filter />
-        <Text style={styles.textMission}>MISSION NAME</Text>
-        <View style={styles.viewArrowDown}>
-          <ArrowDown />
-        </View>
+      <View style={{ zIndex: 100 }}>
+        <FilterData close={close} functionClose={setClose} />
       </View>
-      <View style={styles.viewLine} />
       <View>
         <FlatList
           data={data?.data}
+          limit={5}
           keyExtractor={(item) => item.id}
           renderItem={Item}
         />
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     paddingTop: 13,
     paddingRight: 66,
     flexDirection: "row",
-    backgroundColor: "red",
   },
   buttonLoadMore: {
     borderRadius: 16.5,
@@ -155,5 +154,29 @@ const styles = StyleSheet.create({
   textLoadMore: {
     fontSize: 15,
     color: Colors.White,
+  },
+  viewCollapsable: {
+    backgroundColor: Colors.BlueDark,
+    width: 250,
+    marginLeft: 16,
+    paddingLeft: 22,
+    paddingRight: 33,
+    borderRadius: 6,
+  },
+  textItemFilter: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: Colors.BlueDark,
+    alignSelf: "center",
+  },
+  viewItemFilter: {
+    backgroundColor: Colors.BrownLight,
+    borderRadius: 14,
+    paddingVertical: 16.5,
+    marginVertical: 22,
+  },
+  collapsable: {
+    flex: 1,
+    zIndex: 100,
   },
 });
