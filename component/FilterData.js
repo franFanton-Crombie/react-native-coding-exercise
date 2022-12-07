@@ -10,7 +10,12 @@ const FilterData = ({ close, functionClose }) => {
   const [textFilter, setTextFilter] = useState("MISSION NAME");
 
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      onTouchStart={(event) => {
+        event.stopPropagation();
+      }}
+    >
       <View style={styles.viewFilter}>
         <TouchableOpacity onPress={() => functionClose(!close)}>
           <Filter />
