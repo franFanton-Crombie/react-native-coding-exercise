@@ -1,12 +1,18 @@
+import { useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import { ArrowDown, Banner, Filter, SmallRocket } from "../assets/Icons";
+import CardMission from "../component/CardMission";
 import HeaderScreen from "../component/Header";
 import { Colors } from "../helpers/colors";
 import { WIDTH_SCREEN } from "../helpers/constants";
 import useLaunchesPastResult from "../helpers/useLaunchesPastResult";
 
 const MainScreen = () => {
-  const list = useLaunchesPastResult();
+  const information = useLaunchesPastResult();
+  const data = information.data;
+  const result = information?.data?.result;
+  const Item = useCallback((props) => <CardMission {...props} />, []);
   return (
     <View style={styles.container}>
       <HeaderScreen />
@@ -34,6 +40,19 @@ const MainScreen = () => {
         </View>
       </View>
       <View style={styles.viewLine} />
+      <View>
+        <FlatList
+          data={data?.data}
+          keyExtractor={(item) => item.id}
+          renderItem={Item}
+        />
+        <View style={styles.viewLoadMore}>
+          <Text style={styles.textNumberItem}>1 of {result?.totalCount}</Text>
+          <TouchableOpacity style={styles.buttonLoadMore}>
+            <Text style={styles.textLoadMore}>LOAD MORE</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };
@@ -110,5 +129,31 @@ const styles = StyleSheet.create({
     marginTop: 7.7,
     marginRight: 18.1,
     borderRadius: 6,
+  },
+  textNumberItem: {
+    fontSize: 15,
+    color: Colors.BlueDark,
+    alignSelf: "center",
+  },
+  viewLoadMore: {
+    paddingLeft: 79,
+    paddingTop: 13,
+    paddingRight: 66,
+    flexDirection: "row",
+    backgroundColor: "red",
+  },
+  buttonLoadMore: {
+    borderRadius: 16.5,
+    backgroundColor: Colors.RedLight,
+    justifyContent: "center",
+    marginLeft: 41,
+    paddingTop: 6,
+    paddingBottom: 7,
+    paddingLeft: 30,
+    paddingRight: 29,
+  },
+  textLoadMore: {
+    fontSize: 15,
+    color: Colors.White,
   },
 });
