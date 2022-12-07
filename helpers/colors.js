@@ -3,4 +3,6 @@ export const Colors = {
   BlueDark: "#193247",
   RedLight: "#d14b39",
   White: "#ffffff",
+  BrownLight: "#fdf2dd",
+  GrayLight: "#606060",
 };
