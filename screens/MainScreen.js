@@ -15,8 +15,14 @@ const MainScreen = () => {
   const result = information?.data?.result;
   const Item = useCallback((props) => <CardMission {...props} />, []);
   const [close, setClose] = useState(false);
+
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      onTouchStart={() => {
+        setClose(false);
+      }}
+    >
       <View style={{ backgroundColor: Colors.BlueDark }}>
         <HeaderScreen />
       </View>
@@ -106,30 +112,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 29,
   },
-  viewFilter: {
-    flexDirection: "row",
-    marginTop: 15.9,
-    paddingLeft: 31.5,
-    paddingRight: 97.3,
-  },
-  textMission: {
-    fontSize: 15,
-    color: Colors.BlueDark,
-    fontWeight: "bold",
-    marginLeft: 83.6,
-    marginRight: 21.9,
-  },
-  viewArrowDown: {
-    alignSelf: "center",
-  },
-  viewLine: {
-    height: 6,
-    backgroundColor: Colors.BlueDark,
-    marginLeft: 17.4,
-    marginTop: 7.7,
-    marginRight: 18.1,
-    borderRadius: 6,
-  },
   textNumberItem: {
     fontSize: 15,
     color: Colors.BlueDark,
@@ -154,26 +136,6 @@ const styles = StyleSheet.create({
   textLoadMore: {
     fontSize: 15,
     color: Colors.White,
-  },
-  viewCollapsable: {
-    backgroundColor: Colors.BlueDark,
-    width: 250,
-    marginLeft: 16,
-    paddingLeft: 22,
-    paddingRight: 33,
-    borderRadius: 6,
-  },
-  textItemFilter: {
-    fontSize: 15,
-    fontWeight: "bold",
-    color: Colors.BlueDark,
-    alignSelf: "center",
-  },
-  viewItemFilter: {
-    backgroundColor: Colors.BrownLight,
-    borderRadius: 14,
-    paddingVertical: 16.5,
-    marginVertical: 22,
   },
   collapsable: {
     flex: 1,

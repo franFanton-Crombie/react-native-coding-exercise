@@ -7,13 +7,15 @@ import { WIDTH_SCREEN } from "../helpers/constants";
 
 const FilterData = ({ close, functionClose }) => {
   const [order, setOrder] = useState(true);
+  const [textFilter, setTextFilter] = useState("MISSION NAME");
+
   return (
     <View style={styles.container}>
       <View style={styles.viewFilter}>
         <TouchableOpacity onPress={() => functionClose(!close)}>
           <Filter />
         </TouchableOpacity>
-        <Text style={styles.textMission}>MISSION NAME</Text>
+        <Text style={styles.textMission}>{textFilter}</Text>
         <View style={styles.viewArrowDown}>
           <TouchableOpacity onPress={() => setOrder(!order)}>
             {order ? <ArrowDown /> : <ArrowUp />}
@@ -24,13 +26,28 @@ const FilterData = ({ close, functionClose }) => {
       <View style={close ? styles.collapsible : styles.collapsibleViewHide}>
         <Collapsible collapsed={!close}>
           <View style={styles.viewCollapsable}>
-            <TouchableOpacity style={styles.viewItemFilter}>
+            <TouchableOpacity
+              style={styles.viewItemFilter}
+              onPress={() => {
+                setTextFilter("ROCKET NAME"), functionClose(false);
+              }}
+            >
               <Text style={styles.textItemFilter}>ROCKET NAME</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.viewItemFilter}>
+            <TouchableOpacity
+              style={styles.viewItemFilter}
+              onPress={() => {
+                setTextFilter("ROCKET TYPE"), functionClose(false);
+              }}
+            >
               <Text style={styles.textItemFilter}>ROCKET TYPE</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.viewItemFilter}>
+            <TouchableOpacity
+              style={styles.viewItemFilter}
+              onPress={() => {
+                setTextFilter("LAUNCH YEAR"), functionClose(false);
+              }}
+            >
               <Text style={styles.textItemFilter}>LAUNCH YEAR</Text>
             </TouchableOpacity>
           </View>
@@ -60,6 +77,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginLeft: 83.6,
     marginRight: 21.9,
+    width: 140,
   },
   viewArrowDown: {
     alignSelf: "center",
