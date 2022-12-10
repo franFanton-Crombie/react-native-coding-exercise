@@ -1,52 +1,8 @@
-import { ApolloClient, gql, InMemoryCache, useQuery } from "@apollo/client";
-import { useState } from "react";
+import { gql, useQuery } from "@apollo/client";
 
-const useLaunchesPastResult = () => {
-  //const { loading, error, data } = useQuery(query);
-  const [data, setData] = useState({});
-  //console.log(error);
-  /*data?.dogs.map((item) => {
-    console.log(item.name);
-  });*/
-  const client = new ApolloClient({
-    uri: "https://api.spacex.land/graphql",
-    cache: new InMemoryCache(),
-  });
-
-  client
-    .query({
-      query: gql`
-        query GetLaunchesPastResult {
-          launchesPastResult(limit: 4) {
-            data {
-              launch_date_local
-              mission_name
-            }
-            result {
-              totalCount
-            }
-          }
-        }
-      `,
-    })
-    .then((result) => {
-      setData(result.data.launchesPastResult);
-    });
-
-  return { data: data };
-};
-
-const GET_DOGS = gql`
-  query GetDogs {
-    dogs {
-      id
-      breed
-    }
-  }
-`;
-const query = gql`
-  query GetLaunchesPastResult {
-    launchesPastResult(limit: 1) {
+const QUERY = gql`
+  query GetLaunchesPastResult($limit: Int!) {
+    launchesPastResult(limit: $limit) {
       data {
         launch_date_local
         mission_name
@@ -57,5 +13,23 @@ const query = gql`
     }
   }
 `;
+
+const useLaunchesPastResult = (page) => {
+  const { loading, error, data } = useQuery(QUERY, {
+    variables: {
+      limit: 4 * page,
+    },
+  });
+  const vector = data?.launchesPastResult?.data
+    .slice()
+    .sort(
+      (a, b) => a.mission_name.toLowerCase() > b.mission_name.toLowerCase()
+    );
+  return {
+    data: vector,
+    result: data?.launchesPastResult?.result,
+    loading: loading,
+  };
+};
 
 export default useLaunchesPastResult;

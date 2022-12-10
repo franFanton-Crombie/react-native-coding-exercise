@@ -1,21 +1,62 @@
-import { useCallback, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { ScrollView } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { Banner, SmallRocket } from "../assets/Icons";
 import CardMission from "../component/CardMission";
 import FilterData from "../component/FilterData";
 import HeaderScreen from "../component/Header";
 import { Colors } from "../helpers/colors";
-import { WIDTH_SCREEN } from "../helpers/constants";
+import { HEIGHT_SCREEN, WIDTH_SCREEN } from "../helpers/constants";
 import useLaunchesPastResult from "../helpers/useLaunchesPastResult";
 
 const MainScreen = () => {
-  const information = useLaunchesPastResult();
-  const data = information.data;
-  const result = information?.data?.result;
+  const [page, setPage] = useState(1);
+  const { data, result, loading } = useLaunchesPastResult(page);
   const Item = useCallback((props) => <CardMission {...props} />, []);
   const [close, setClose] = useState(false);
+  const [selected, setSelected] = useState("MISSION NAME");
+  //true is decend and false is ascend
+  const [order, setOrder] = useState(true);
+  /*
+  useEffect(() => {
+    console.log(data);
+    let vector = infoArray;
+    if (vector) {
+      if (order) {
+        vector = infoArray
+          .slice()
+          .sort(
+            (a, b) =>
+              a.mission_name.toLowerCase() > b.mission_name.toLowerCase()
+          );
+      } else {
+        vector = infoArray
+          .slice()
+          .sort(
+            (a, b) =>
+              a.mission_name.toLowerCase() < b.mission_name.toLowerCase()
+          );
+      }
+      setInfoArray(vector);
+    }
+  }, [order, data]);
+  
+  console.log("loading: ", loading);
+  console.log(data);
 
+  useEffect(() => {
+    console.log(data);
+    if (!loading) setInfoArray(data);
+  }, [data, loading]);
+  useEffect(() => {}, [loading]);
+  */
   return (
     <View
       style={styles.container}
@@ -26,39 +67,60 @@ const MainScreen = () => {
       <View style={{ backgroundColor: Colors.BlueDark }}>
         <HeaderScreen />
       </View>
-      <View style={styles.viewBanner}>
-        <Banner />
-      </View>
-      <View style={styles.viewSearchButtons}>
-        <TouchableOpacity style={styles.buttonSearchFlight}>
-          <View style={styles.viewSmallRocket}>
-            <SmallRocket />
-          </View>
-          <View style={styles.viewTextSearchFlight}>
-            <Text style={styles.textSearchFlight}>Search for flight</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonSearch}>
-          <Text style={styles.textSearch}>SEARCH</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{ zIndex: 100 }}>
-        <FilterData close={close} functionClose={setClose} />
-      </View>
-      <View>
-        <FlatList
-          data={data?.data}
-          limit={5}
-          keyExtractor={(item) => item.id}
-          renderItem={Item}
-        />
-        <View style={styles.viewLoadMore}>
-          <Text style={styles.textNumberItem}>1 of {result?.totalCount}</Text>
-          <TouchableOpacity style={styles.buttonLoadMore}>
-            <Text style={styles.textLoadMore}>LOAD MORE</Text>
-          </TouchableOpacity>
+      {loading ? (
+        <View style={styles.viewLoading}>
+          <ActivityIndicator size="large" color={Colors.BlueDark} />
         </View>
-      </View>
+      ) : (
+        <View>
+          <View style={styles.viewBanner}>
+            <Banner />
+          </View>
+          <View style={styles.viewSearchButtons}>
+            <TouchableOpacity style={styles.buttonSearchFlight}>
+              <View style={styles.viewSmallRocket}>
+                <SmallRocket />
+              </View>
+              <View style={styles.viewTextSearchFlight}>
+                <Text style={styles.textSearchFlight}>Search for flight</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonSearch}>
+              <Text style={styles.textSearch}>SEARCH</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ zIndex: 100 }}>
+            <FilterData
+              close={close}
+              functionClose={setClose}
+              functionSelected={setSelected}
+              fuctionOrder={setOrder}
+            />
+          </View>
+          <View>
+            <Text>{selected}</Text>
+
+            <FlatList
+              nestedScrollEnabled
+              data={data}
+              keyExtractor={(item) => item.id}
+              renderItem={Item}
+              style={{ width: WIDTH_SCREEN, height: HEIGHT_SCREEN * 0.45 }}
+            />
+            <View style={styles.viewLoadMore}>
+              <Text style={styles.textNumberItem}>
+                {data?.length} of {result?.totalCount}
+              </Text>
+              <TouchableOpacity
+                style={styles.buttonLoadMore}
+                onPress={() => setPage(page + 1)}
+              >
+                <Text style={styles.textLoadMore}>LOAD MORE</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -140,5 +202,9 @@ const styles = StyleSheet.create({
   collapsable: {
     flex: 1,
     zIndex: 100,
+  },
+  viewLoading: {
+    flex: 1,
+    justifyContent: "center",
   },
 });

@@ -5,7 +5,12 @@ import { ArrowDown, ArrowUp, Filter } from "../assets/Icons";
 import { Colors } from "../helpers/colors";
 import { WIDTH_SCREEN } from "../helpers/constants";
 
-const FilterData = ({ close, functionClose }) => {
+const FilterData = ({
+  close,
+  functionClose,
+  functionSelected,
+  fuctionOrder,
+}) => {
   const [order, setOrder] = useState(true);
   const [textFilter, setTextFilter] = useState("MISSION NAME");
 
@@ -22,7 +27,11 @@ const FilterData = ({ close, functionClose }) => {
         </TouchableOpacity>
         <Text style={styles.textMission}>{textFilter}</Text>
         <View style={styles.viewArrowDown}>
-          <TouchableOpacity onPress={() => setOrder(!order)}>
+          <TouchableOpacity
+            onPress={() => {
+              setOrder(!order), fuctionOrder(!order);
+            }}
+          >
             {order ? <ArrowDown /> : <ArrowUp />}
           </TouchableOpacity>
         </View>
@@ -34,7 +43,9 @@ const FilterData = ({ close, functionClose }) => {
             <TouchableOpacity
               style={styles.viewItemFilter}
               onPress={() => {
-                setTextFilter("ROCKET NAME"), functionClose(false);
+                setTextFilter("ROCKET NAME"),
+                  functionClose(false),
+                  functionSelected("ROCKET NAME");
               }}
             >
               <Text style={styles.textItemFilter}>ROCKET NAME</Text>
@@ -42,7 +53,9 @@ const FilterData = ({ close, functionClose }) => {
             <TouchableOpacity
               style={styles.viewItemFilter}
               onPress={() => {
-                setTextFilter("ROCKET TYPE"), functionClose(false);
+                setTextFilter("ROCKET TYPE"),
+                  functionClose(false),
+                  functionSelected("ROCKET TYPE");
               }}
             >
               <Text style={styles.textItemFilter}>ROCKET TYPE</Text>
@@ -50,7 +63,9 @@ const FilterData = ({ close, functionClose }) => {
             <TouchableOpacity
               style={styles.viewItemFilter}
               onPress={() => {
-                setTextFilter("LAUNCH YEAR"), functionClose(false);
+                setTextFilter("LAUNCH YEAR"),
+                  functionClose(false),
+                  functionSelected("LAUNCH YEAR");
               }}
             >
               <Text style={styles.textItemFilter}>LAUNCH YEAR</Text>
