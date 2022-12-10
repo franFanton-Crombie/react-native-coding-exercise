@@ -3,10 +3,11 @@ import { StyleSheet, View } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "./helpers/colors";
 import MainScreen from "./screens/MainScreen";
+import { API_URL } from "@env";
 
 export default function App() {
   const client = new ApolloClient({
-    uri: "https://api.spacex.land/graphql",
+    uri: API_URL,
     cache: new InMemoryCache(),
   });
   return (
