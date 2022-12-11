@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { ScrollView } from "react-native";
 import {
   ActivityIndicator,
   StyleSheet,
@@ -19,44 +18,36 @@ import useLaunchesPastResult from "../helpers/useLaunchesPastResult";
 const MainScreen = () => {
   const [page, setPage] = useState(1);
   const { data, result, loading } = useLaunchesPastResult(page);
+  const [listData, setListData] = useState([]);
   const Item = useCallback((props) => <CardMission {...props} />, []);
   const [close, setClose] = useState(false);
   const [selected, setSelected] = useState("MISSION NAME");
   //true is decend and false is ascend
-  const [order, setOrder] = useState(true);
-  /*
-  useEffect(() => {
-    console.log(data);
-    let vector = infoArray;
-    if (vector) {
-      if (order) {
-        vector = infoArray
-          .slice()
-          .sort(
-            (a, b) =>
-              a.mission_name.toLowerCase() > b.mission_name.toLowerCase()
-          );
-      } else {
-        vector = infoArray
-          .slice()
-          .sort(
-            (a, b) =>
-              a.mission_name.toLowerCase() < b.mission_name.toLowerCase()
-          );
-      }
-      setInfoArray(vector);
+
+  const orderList = (entry) => {
+    let vector;
+    if (entry) {
+      vector = listData
+        .slice()
+        .sort(
+          (a, b) => a.mission_name.toLowerCase() > b.mission_name.toLowerCase()
+        );
+    } else {
+      vector = listData
+        .slice()
+        .sort(
+          (a, b) => b.mission_name.toLowerCase() > a.mission_name.toLowerCase()
+        );
     }
-  }, [order, data]);
-  
-  console.log("loading: ", loading);
-  console.log(data);
+    setListData(vector);
+  };
 
   useEffect(() => {
-    console.log(data);
-    if (!loading) setInfoArray(data);
-  }, [data, loading]);
-  useEffect(() => {}, [loading]);
-  */
+    if (!loading) {
+      setListData(data);
+    }
+  }, [loading]);
+
   return (
     <View
       style={styles.container}
@@ -94,7 +85,7 @@ const MainScreen = () => {
               close={close}
               functionClose={setClose}
               functionSelected={setSelected}
-              fuctionOrder={setOrder}
+              fuctionOrder={orderList}
             />
           </View>
           <View>
@@ -102,7 +93,7 @@ const MainScreen = () => {
 
             <FlatList
               nestedScrollEnabled
-              data={data}
+              data={listData}
               keyExtractor={(item) => item.id}
               renderItem={Item}
               style={{ width: WIDTH_SCREEN, height: HEIGHT_SCREEN * 0.45 }}
