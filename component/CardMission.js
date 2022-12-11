@@ -1,10 +1,48 @@
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { ArrowRightCircle } from "../assets/Icons";
 import { Colors } from "../helpers/colors";
+import { WIDTH_SCREEN } from "../helpers/constants";
 
-const CardMission = ({ item }) => {
+const CardMission = ({ item, functionSelect, idSelected }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.textMissionName}>{item.mission_name}</Text>
+      <TouchableOpacity
+        style={[
+          styles.button,
+          item.id === idSelected
+            ? {
+                backgroundColor: Colors.RedLight,
+              }
+            : { backgroundColor: Colors.BrownLight },
+        ]}
+        onPress={() => functionSelect(item.id)}
+      >
+        <Text
+          style={[
+            styles.textMissionName,
+            item.id === idSelected
+              ? {
+                  color: Colors.White,
+                }
+              : { color: Colors.GrayLight },
+          ]}
+        >
+          {item.mission_name}
+        </Text>
+      </TouchableOpacity>
+      {item.id === idSelected && (
+        <View style={styles.viewArrow}>
+          <TouchableOpacity
+            onPress={() => {
+              console.log("BUYY");
+            }}
+          >
+            <ArrowRightCircle />
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -13,16 +51,20 @@ export default CardMission;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.BrownLight,
-    borderRadius: 14,
     marginVertical: 10,
-    marginHorizontal: 65,
+    marginLeft: 65,
+    marginRight: 18,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  button: {
+    borderRadius: 14,
     paddingVertical: 25,
-    paddingHorizontal: 61,
+    width: WIDTH_SCREEN * 0.65,
   },
   textMissionName: {
-    color: Colors.GrayLight,
     fontSize: 15,
     alignSelf: "center",
   },
+  viewArrow: { justifyContent: "center" },
 });

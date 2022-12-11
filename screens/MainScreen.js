@@ -19,9 +19,20 @@ const MainScreen = () => {
   const [page, setPage] = useState(1);
   const { data, result, loading } = useLaunchesPastResult(page);
   const [listData, setListData] = useState([]);
-  const Item = useCallback((props) => <CardMission {...props} />, []);
+  const [idSelected, setIdSelected] = useState("");
+  const Item = useCallback(
+    (props) => (
+      <CardMission
+        {...props}
+        functionSelect={selectItem}
+        idSelected={idSelected}
+      />
+    ),
+    [idSelected]
+  );
   const [close, setClose] = useState(false);
   const [selected, setSelected] = useState("MISSION NAME");
+
   //true is decend and false is ascend
 
   const orderList = (entry) => {
@@ -40,6 +51,14 @@ const MainScreen = () => {
         );
     }
     setListData(vector);
+  };
+
+  const selectItem = (id) => {
+    if (id === idSelected) {
+      setIdSelected("");
+    } else {
+      setIdSelected(id.toString());
+    }
   };
 
   useEffect(() => {
@@ -94,7 +113,7 @@ const MainScreen = () => {
             <FlatList
               nestedScrollEnabled
               data={listData}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item, index) => index.toString()}
               renderItem={Item}
               style={{ width: WIDTH_SCREEN, height: HEIGHT_SCREEN * 0.45 }}
             />
