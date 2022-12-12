@@ -6,6 +6,7 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainScreen from "../screens/MainScreen";
 import TicketScreen from "../screens/TicketScreen";
+import { MAIN_SCREEN, TICKET_SCREEN } from "./Routes";
 
 const Stack = createNativeStackNavigator();
 
@@ -14,18 +15,18 @@ const RootApp = () => {
   return (
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator
-        initialRouteName={"MainScreen"}
+        initialRouteName={MAIN_SCREEN}
         screenOptions={{
           headerShown: false,
         }}
       >
         <Stack.Screen
-          name={"MainScreen"}
+          name={MAIN_SCREEN}
           component={MainScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name={"TicketScreen"}
+          name={TICKET_SCREEN}
           component={TicketScreen}
           options={{ headerShown: false }}
         />
