@@ -17,9 +17,11 @@ import useLaunchesPastResult from "../helpers/useLaunchesPastResult";
 
 const MainScreen = () => {
   const [page, setPage] = useState(1);
-  const { data, result, loading } = useLaunchesPastResult(page);
+  const [filterSelected, setFilterSelected] = useState("mission_name");
+  const { data, result, loading } = useLaunchesPastResult(page, filterSelected);
   const [listData, setListData] = useState([]);
   const [idSelected, setIdSelected] = useState("");
+  const [close, setClose] = useState(false);
   const Item = useCallback(
     (props) => (
       <CardMission
@@ -30,10 +32,6 @@ const MainScreen = () => {
     ),
     [idSelected]
   );
-  const [close, setClose] = useState(false);
-  const [selected, setSelected] = useState("MISSION NAME");
-
-  //true is decend and false is ascend
 
   const orderList = (entry) => {
     let vector;
@@ -102,20 +100,19 @@ const MainScreen = () => {
           <View style={{ zIndex: 100 }}>
             <FilterData
               close={close}
+              titleFilter={filterSelected}
               functionClose={setClose}
-              functionSelected={setSelected}
+              functionSelected={setFilterSelected}
               fuctionOrder={orderList}
             />
           </View>
           <View>
-            <Text>{selected}</Text>
-
             <FlatList
               nestedScrollEnabled
               data={listData}
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(index) => index.toString()}
               renderItem={Item}
-              style={{ width: WIDTH_SCREEN, height: HEIGHT_SCREEN * 0.45 }}
+              style={styles.flatList}
             />
             <View style={styles.viewLoadMore}>
               <Text style={styles.textNumberItem}>
@@ -209,12 +206,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: Colors.White,
   },
-  collapsable: {
-    flex: 1,
-    zIndex: 100,
-  },
   viewLoading: {
     flex: 1,
     justifyContent: "center",
   },
+  flatList: { width: WIDTH_SCREEN, height: HEIGHT_SCREEN * 0.45 },
 });

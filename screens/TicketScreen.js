@@ -13,10 +13,10 @@ import BackgroundTicket from "../assets/BackgroundTicket.png";
 import { ArrowLeftCircle } from "../assets/Icons";
 import { Colors } from "../helpers/colors";
 import { HEIGHT_SCREEN, WIDTH_SCREEN } from "../helpers/constants";
+
 const TicketScreen = (route) => {
   const navigation = useNavigation();
   const information = route?.route?.params?.data;
-  console.log("information: ", information);
 
   return (
     <SafeAreaView style={styles.container}>
