@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useNavigation } from "@react-navigation/core";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ArrowRightCircle } from "../assets/Icons";
 import { Colors } from "../helpers/colors";
 import { WIDTH_SCREEN } from "../helpers/constants";
 
-const CardMission = ({ item, functionSelect, idSelected }) => {
+const CardMission = ({ item, functionSelect, idSelected, filterSelected }) => {
+  const [textItem, setTextItem] = useState("");
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    if (filterSelected === "rocket_name") setTextItem(item.rocket.rocket_name);
+    else if (filterSelected === "rocket_type")
+      setTextItem(item.rocket.rocket_type);
+    else if (filterSelected === "launch_year") setTextItem(item.launch_year);
+    else setTextItem(item.mission_name);
+  }, [filterSelected]);
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -29,14 +40,14 @@ const CardMission = ({ item, functionSelect, idSelected }) => {
               : { color: Colors.GrayLight },
           ]}
         >
-          {item.mission_name}
+          {textItem}
         </Text>
       </TouchableOpacity>
       {item.id === idSelected && (
         <View style={styles.viewArrow}>
           <TouchableOpacity
             onPress={() => {
-              console.log("BUYY");
+              navigation.navigate("TicketScreen", { data: item });
             }}
           >
             <ArrowRightCircle />

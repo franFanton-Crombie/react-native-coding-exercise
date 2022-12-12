@@ -5,6 +5,7 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MainScreen from "../screens/MainScreen";
+import TicketScreen from "../screens/TicketScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,11 @@ const RootApp = () => {
         <Stack.Screen
           name={"MainScreen"}
           component={MainScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={"TicketScreen"}
+          component={TicketScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
