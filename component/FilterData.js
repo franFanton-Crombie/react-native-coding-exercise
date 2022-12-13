@@ -8,9 +8,10 @@ import { WIDTH_SCREEN } from "../helpers/constants";
 const FilterData = ({
   close,
   functionClose,
-  functionSelected,
-  fuctionOrder,
+  setFilterSelected,
   titleFilter,
+  orderFilter,
+  setOrderSelected,
 }) => {
   const [order, setOrder] = useState(true);
   const [textFilter, setTextFilter] = useState("");
@@ -20,8 +21,17 @@ const FilterData = ({
     else if (titleFilter === "rocket_name") setTextFilter("ROCKET NAME");
     else if (titleFilter === "rocket_type") setTextFilter("ROCKET TYPE");
     else setTextFilter("LAUNCH YEAR");
+    if (orderFilter === "asc") setOrder(true);
+    else setOrder(false);
   }, []);
 
+  const functionOrder = (entry) => {
+    if (entry) {
+      setOrderSelected("asc");
+    } else {
+      setOrderSelected("desc");
+    }
+  };
   return (
     <View
       style={styles.container}
@@ -37,7 +47,7 @@ const FilterData = ({
         <View style={styles.viewArrowDown}>
           <TouchableOpacity
             onPress={() => {
-              setOrder(!order), fuctionOrder(!order);
+              setOrder(!order), functionOrder(!order);
             }}
           >
             {order ? <ArrowDown /> : <ArrowUp />}
@@ -51,7 +61,7 @@ const FilterData = ({
             <TouchableOpacity
               style={styles.viewItemFilter}
               onPress={() => {
-                functionClose(false), functionSelected("mission_name");
+                functionClose(false), setFilterSelected("mission_name");
               }}
             >
               <Text style={styles.textItemFilter}>MISSION NAME</Text>
@@ -59,7 +69,7 @@ const FilterData = ({
             <TouchableOpacity
               style={styles.viewItemFilter}
               onPress={() => {
-                functionClose(false), functionSelected("rocket_name");
+                functionClose(false), setFilterSelected("rocket_name");
               }}
             >
               <Text style={styles.textItemFilter}>ROCKET NAME</Text>
@@ -67,7 +77,7 @@ const FilterData = ({
             <TouchableOpacity
               style={styles.viewItemFilter}
               onPress={() => {
-                functionClose(false), functionSelected("rocket_type");
+                functionClose(false), setFilterSelected("rocket_type");
               }}
             >
               <Text style={styles.textItemFilter}>ROCKET TYPE</Text>
@@ -75,7 +85,7 @@ const FilterData = ({
             <TouchableOpacity
               style={styles.viewItemFilter}
               onPress={() => {
-                functionClose(false), functionSelected("launch_year");
+                functionClose(false), setFilterSelected("launch_year");
               }}
             >
               <Text style={styles.textItemFilter}>LAUNCH YEAR</Text>

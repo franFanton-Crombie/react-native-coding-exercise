@@ -18,7 +18,12 @@ import useLaunchesPastResult from "../helpers/useLaunchesPastResult";
 const MainScreen = () => {
   const [page, setPage] = useState(1);
   const [filterSelected, setFilterSelected] = useState("mission_name");
-  const { data, result, loading } = useLaunchesPastResult(page, filterSelected);
+  const [orderSelected, setOrderSelected] = useState("asc");
+  const { data, result, loading } = useLaunchesPastResult(
+    page,
+    filterSelected,
+    orderSelected
+  );
   const [listData, setListData] = useState([]);
   const [idSelected, setIdSelected] = useState("");
   const [close, setClose] = useState(false);
@@ -32,25 +37,16 @@ const MainScreen = () => {
     ),
     [idSelected]
   );
-
-  const orderList = (entry) => {
-    let vector;
+  /*
+  const functionOrder = (entry) => {
+    console.log("entry: ", entry);
     if (entry) {
-      vector = listData
-        .slice()
-        .sort(
-          (a, b) => a.mission_name.toLowerCase() > b.mission_name.toLowerCase()
-        );
+      setOrderSelected("asc");
     } else {
-      vector = listData
-        .slice()
-        .sort(
-          (a, b) => b.mission_name.toLowerCase() > a.mission_name.toLowerCase()
-        );
+      setOrderSelected("desc");
     }
-    setListData(vector);
   };
-
+*/
   const selectItem = (id) => {
     if (id === idSelected) {
       setIdSelected("");
@@ -101,16 +97,17 @@ const MainScreen = () => {
             <FilterData
               close={close}
               titleFilter={filterSelected}
+              orderFilter={orderSelected}
               functionClose={setClose}
-              functionSelected={setFilterSelected}
-              fuctionOrder={orderList}
+              setFilterSelected={setFilterSelected}
+              setOrderSelected={setOrderSelected}
             />
           </View>
           <View>
             <FlatList
               nestedScrollEnabled
               data={listData}
-              keyExtractor={(index) => index.toString()}
+              keyExtractor={(item) => item.id.toString()}
               renderItem={Item}
               style={styles.flatList}
             />
