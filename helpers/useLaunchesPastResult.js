@@ -1,8 +1,18 @@
 import { gql, useQuery } from "@apollo/client";
 
 const QUERY = gql`
-  query GetLaunchesPastResult($limit: Int!, $sort: String!, $order: String!) {
-    launchesPastResult(limit: $limit, sort: $sort, order: $order) {
+  query GetLaunchesPastResult(
+    $limit: Int!
+    $sort: String!
+    $order: String!
+    $search: String!
+  ) {
+    launchesPastResult(
+      limit: $limit
+      sort: $sort
+      order: $order
+      find: { mission_name: $search }
+    ) {
       data {
         id
         mission_name
@@ -19,12 +29,13 @@ const QUERY = gql`
   }
 `;
 
-const useLaunchesPastResult = (page, sortKey, orderKey) => {
+const useLaunchesPastResult = (page, sortKey, orderKey, search) => {
   const { loading, error, data, client } = useQuery(QUERY, {
     variables: {
       limit: 4 * page,
       sort: sortKey,
       order: orderKey,
+      search: search,
     },
   });
   client.cache.reset();

@@ -3,6 +3,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -19,10 +20,14 @@ const MainScreen = () => {
   const [page, setPage] = useState(1);
   const [filterSelected, setFilterSelected] = useState("mission_name");
   const [orderSelected, setOrderSelected] = useState("asc");
+  const [search, setSearch] = useState("");
+  const [find, setFind] = useState("");
+
   const { data, result, loading } = useLaunchesPastResult(
     page,
     filterSelected,
-    orderSelected
+    orderSelected,
+    find
   );
   const [listData, setListData] = useState([]);
   const [idSelected, setIdSelected] = useState("");
@@ -37,16 +42,7 @@ const MainScreen = () => {
     ),
     [idSelected]
   );
-  /*
-  const functionOrder = (entry) => {
-    console.log("entry: ", entry);
-    if (entry) {
-      setOrderSelected("asc");
-    } else {
-      setOrderSelected("desc");
-    }
-  };
-*/
+
   const selectItem = (id) => {
     if (id === idSelected) {
       setIdSelected("");
@@ -81,15 +77,23 @@ const MainScreen = () => {
             <Banner />
           </View>
           <View style={styles.viewSearchButtons}>
-            <TouchableOpacity style={styles.buttonSearchFlight}>
+            <View style={styles.buttonSearchFlight}>
               <View style={styles.viewSmallRocket}>
                 <SmallRocket />
               </View>
               <View style={styles.viewTextSearchFlight}>
-                <Text style={styles.textSearchFlight}>Search for flight</Text>
+                <TextInput
+                  placeholder="Search for flights"
+                  placeholderTextColor={Colors.BrownLight}
+                  style={styles.textSearchFlight}
+                  onChangeText={(text) => setSearch(text)}
+                />
               </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonSearch}>
+            </View>
+            <TouchableOpacity
+              style={styles.buttonSearch}
+              onPress={() => setFind(search)}
+            >
               <Text style={styles.textSearch}>SEARCH</Text>
             </TouchableOpacity>
           </View>
@@ -156,6 +160,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BlueDark,
     flexDirection: "row",
     borderRadius: 16.5,
+    width: WIDTH_SCREEN * 0.58,
   },
   buttonSearch: {
     borderRadius: 16.5,
