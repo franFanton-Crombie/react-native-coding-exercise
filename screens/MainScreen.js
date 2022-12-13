@@ -6,8 +6,9 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  FlatList,
+  ScrollView,
 } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import { Banner, SmallRocket } from "../assets/Icons";
 import CardMission from "../component/CardMission";
 import FilterData from "../component/FilterData";
@@ -64,71 +65,73 @@ const MainScreen = () => {
         setClose(false);
       }}
     >
-      <View style={{ backgroundColor: Colors.BlueDark }}>
-        <HeaderScreen />
-      </View>
-      {loading ? (
-        <View style={styles.viewLoading}>
-          <ActivityIndicator size="large" color={Colors.BlueDark} />
+      <ScrollView>
+        <View style={{ backgroundColor: Colors.BlueDark }}>
+          <HeaderScreen />
         </View>
-      ) : (
-        <View>
-          <View style={styles.viewBanner}>
-            <Banner />
+        {loading ? (
+          <View style={styles.viewLoading}>
+            <ActivityIndicator size="large" color={Colors.BlueDark} />
           </View>
-          <View style={styles.viewSearchButtons}>
-            <View style={styles.buttonSearchFlight}>
-              <View style={styles.viewSmallRocket}>
-                <SmallRocket />
-              </View>
-              <View style={styles.viewTextSearchFlight}>
-                <TextInput
-                  placeholder="Search for flights"
-                  placeholderTextColor={Colors.BrownLight}
-                  style={styles.textSearchFlight}
-                  onChangeText={(text) => setSearch(text)}
-                />
-              </View>
-            </View>
-            <TouchableOpacity
-              style={styles.buttonSearch}
-              onPress={() => setFind(search)}
-            >
-              <Text style={styles.textSearch}>SEARCH</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ zIndex: 100 }}>
-            <FilterData
-              close={close}
-              titleFilter={filterSelected}
-              orderFilter={orderSelected}
-              functionClose={setClose}
-              setFilterSelected={setFilterSelected}
-              setOrderSelected={setOrderSelected}
-            />
-          </View>
+        ) : (
           <View>
-            <FlatList
-              nestedScrollEnabled
-              data={listData}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={Item}
-              style={styles.flatList}
-            />
-            <View style={styles.viewLoadMore}>
-              <Text style={styles.textNumberItem}>
-                {data?.length} of {result?.totalCount}
-              </Text>
+            <View style={styles.viewBanner}>
+              <Banner />
+            </View>
+            <View style={styles.viewSearchButtons}>
+              <View style={styles.buttonSearchFlight}>
+                <View style={styles.viewSmallRocket}>
+                  <SmallRocket />
+                </View>
+                <View style={styles.viewTextSearchFlight}>
+                  <TextInput
+                    placeholder="Search for flights"
+                    placeholderTextColor={Colors.BrownLight}
+                    style={styles.textSearchFlight}
+                    onChangeText={(text) => setSearch(text)}
+                  />
+                </View>
+              </View>
               <TouchableOpacity
-                style={styles.buttonLoadMore}
-                onPress={() => setPage(page + 1)}
+                style={styles.buttonSearch}
+                onPress={() => setFind(search)}
               >
-                <Text style={styles.textLoadMore}>LOAD MORE</Text>
+                <Text style={styles.textSearch}>SEARCH</Text>
               </TouchableOpacity>
             </View>
+            <View style={{ zIndex: 100 }}>
+              <FilterData
+                close={close}
+                titleFilter={filterSelected}
+                orderFilter={orderSelected}
+                functionClose={setClose}
+                setFilterSelected={setFilterSelected}
+                setOrderSelected={setOrderSelected}
+              />
+            </View>
+            <View>
+              <FlatList
+                nestedScrollEnabled
+                data={listData}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={Item}
+                style={styles.flatList}
+              />
+              <View style={styles.viewLoadMore}>
+                <Text style={styles.textNumberItem}>
+                  {data?.length} of {result?.totalCount}
+                </Text>
+                <TouchableOpacity
+                  style={styles.buttonLoadMore}
+                  onPress={() => setPage(page + 1)}
+                >
+                  <Text style={styles.textLoadMore}>LOAD MORE</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
-        </View>
-      )}
+        )}
+      </ScrollView>
     </View>
   );
 };
@@ -138,7 +141,6 @@ export default MainScreen;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.Background,
-    width: WIDTH_SCREEN,
     flex: 1,
   },
   viewBanner: {
@@ -212,5 +214,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  flatList: { width: WIDTH_SCREEN, height: HEIGHT_SCREEN * 0.45 },
+  flatList: { width: WIDTH_SCREEN, height: HEIGHT_SCREEN * 0.4 },
 });

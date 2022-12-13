@@ -6,8 +6,8 @@ import {
   View,
   Text,
   Alert,
+  TouchableOpacity,
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import Background from "../assets/Background.png";
 import BackgroundTicket from "../assets/BackgroundTicket.png";
 import { ArrowLeftCircle } from "../assets/Icons";
@@ -100,12 +100,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   viewData: {
-    marginTop: HEIGHT_SCREEN * 0.22,
-    marginBottom: HEIGHT_SCREEN * 0.4,
-    marginLeft: WIDTH_SCREEN * 0.18,
-    marginRight: WIDTH_SCREEN * 0.1,
-    flex: 1,
     transform: [{ rotate: "90deg" }],
+    width: 200,
+    height: 100,
+    marginTop: 140,
+    marginLeft: 120,
   },
   viewTicket: {
     width: WIDTH_SCREEN,

@@ -1,6 +1,5 @@
 import { useNavigation } from "@react-navigation/core";
-import { StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { ArrowRightCircle } from "../assets/Icons";
 import { Colors } from "../helpers/colors";
 import { WIDTH_SCREEN } from "../helpers/constants";

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Collapsible from "react-native-collapsible";
+import { ScrollView } from "react-native-gesture-handler";
 import { ArrowDown, ArrowUp, Filter } from "../assets/Icons";
 import { Colors } from "../helpers/colors";
-import { WIDTH_SCREEN } from "../helpers/constants";
+import { HEIGHT_SCREEN, WIDTH_SCREEN } from "../helpers/constants";
 
 const FilterData = ({
   close,
@@ -58,14 +59,6 @@ const FilterData = ({
       <View style={close ? styles.collapsible : styles.collapsibleViewHide}>
         <Collapsible collapsed={!close}>
           <View style={styles.viewCollapsable}>
-            <TouchableOpacity
-              style={styles.viewItemFilter}
-              onPress={() => {
-                functionClose(false), setFilterSelected("mission_name");
-              }}
-            >
-              <Text style={styles.textItemFilter}>MISSION NAME</Text>
-            </TouchableOpacity>
             <TouchableOpacity
               style={styles.viewItemFilter}
               onPress={() => {
@@ -133,7 +126,7 @@ const styles = StyleSheet.create({
 
   viewCollapsable: {
     backgroundColor: Colors.BlueDark,
-    width: 250,
+    width: WIDTH_SCREEN * 0.6,
     marginLeft: 16,
     paddingLeft: 22,
     paddingRight: 33,
