@@ -65,16 +65,16 @@ const MainScreen = () => {
         setClose(false);
       }}
     >
-      <ScrollView>
-        <View style={{ backgroundColor: Colors.BlueDark }}>
-          <HeaderScreen />
-        </View>
+      <ScrollView style={{ flex: 1 }}>
         {loading ? (
           <View style={styles.viewLoading}>
             <ActivityIndicator size="large" color={Colors.BlueDark} />
           </View>
         ) : (
           <View>
+            <View style={{ backgroundColor: Colors.BlueDark }}>
+              <HeaderScreen />
+            </View>
             <View style={styles.viewBanner}>
               <Banner />
             </View>
@@ -123,7 +123,9 @@ const MainScreen = () => {
                 </Text>
                 <TouchableOpacity
                   style={styles.buttonLoadMore}
-                  onPress={() => setPage(page + 1)}
+                  onPress={() => {
+                    setFind(""), setPage(page + 1);
+                  }}
                 >
                   <Text style={styles.textLoadMore}>LOAD MORE</Text>
                 </TouchableOpacity>
@@ -142,6 +144,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.Background,
     flex: 1,
+    height: HEIGHT_SCREEN,
+    width: WIDTH_SCREEN,
   },
   viewBanner: {
     paddingTop: 19.2,
@@ -211,7 +215,8 @@ const styles = StyleSheet.create({
     color: Colors.White,
   },
   viewLoading: {
-    flex: 1,
+    height: HEIGHT_SCREEN,
+    width: WIDTH_SCREEN,
     justifyContent: "center",
   },
   flatList: { width: WIDTH_SCREEN, height: HEIGHT_SCREEN * 0.4 },

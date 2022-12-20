@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
     transform: [{ rotate: "90deg" }],
     width: 200,
     height: 100,
-    marginTop: 140,
-    marginLeft: 120,
+    marginTop: HEIGHT_SCREEN * 0.18,
+    marginLeft: WIDTH_SCREEN * 0.28,
   },
   viewTicket: {
     width: WIDTH_SCREEN,
